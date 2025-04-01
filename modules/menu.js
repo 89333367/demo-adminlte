@@ -9,19 +9,32 @@ define(function (require, exports, module) {
      */
     exports.init = function () {
         seajs.use(["jquery", "common", "handlebars", "urlhash"], function (_jQuery, common, _Handlebars, urlhash) {
+            var $menu = $('ul[role="menu"]');
+
+            $menu.on('click', 'a', function () {
+                var $this = $(this);
+                if ($this.attr('href') != '#') {
+                    console.log('切换菜单', $this.attr('href'));
+                    urlhash.setHash($this.attr('href').substring(1));
+                    $menu.find('a').removeClass('active');
+                    seajs.use('modules/' + urlhash.getHash(), function (module) { module.init(); });
+                    $this.addClass('active');
+                }
+            });
+
             common.loadTpl('tpl/menu.html', function (tpl) {
                 var template = Handlebars.compile(tpl);
                 var html = template({});
-                $("#mainMenu").html(html);
-
-                $('#mainMenu [role="menu"] a').removeClass('active');
+                $menu.children('li').last().before(html);
                 if (!urlhash.getHash()) {
-                    urlhash.setHash('demo/changelog');
+                    $menu.find('a[href="' + $menu.find('a').last().attr('href') + '"]').click();
+                } else {
+                    if ($menu.find('a[href="#' + urlhash.getHash() + '"]').length == 0) {
+                        seajs.use('modules/404.js', function (module) { module.init(); });
+                    } else {
+                        $menu.find('a[href="#' + urlhash.getHash() + '"]').click();
+                    }
                 }
-                console.log('当前urlhash', urlhash.getHash());
-                $('#mainMenu [role="menu"]').find('a[href="#' + urlhash.getHash() + '"]').addClass('active');
-
-                seajs.use('modules/' + urlhash.getHash(), function (module) { module.init(); });
             });
         });
     };
