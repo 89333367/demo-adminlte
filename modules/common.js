@@ -3,11 +3,14 @@ define(function (require, exports, module) {
 
     require('jquery');
     require('sweetalert2');
+    require('pace');
 
     $(document).ready(function () {
         // 全局 AJAX 请求拦截
         $.ajaxSetup({
             beforeSend: function (xhr, settings) {
+                Pace.restart();
+
                 // 检查 localStorage 中的 token
                 var tokenName = localStorage.getItem('tokenName');
                 if (!tokenName) {

@@ -4,6 +4,7 @@ seajs.config({
         "jquery": "plugins/jquery/jquery.min.js",
         "handlebars": "plugins/handlebars/handlebars.min.js",
         "sweetalert2": "modules/sweetalert2.js",
+        "pace": "modules/pace.js",
         "common": "modules/common.js",
         "urlhash": "modules/urlhash.js"
     },

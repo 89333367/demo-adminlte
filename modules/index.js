@@ -16,4 +16,5 @@ seajs.use(["modules/menu.js", "jquery"], function (menu, _) {
         localStorage.removeItem('loginId');
         window.location.href = 'login.html';
     });
+
 });

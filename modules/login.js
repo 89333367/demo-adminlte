@@ -1,5 +1,7 @@
-seajs.use(['sweetalert2'], function (_) {
+seajs.use(['sweetalert2', 'pace'], function (_) {
     $('#submit').on('click', function () {
+        Pace.restart();
+
         var username = $('#username').val();
         var password = $('#password').val();
         var remember = $('#remember').prop('checked');
