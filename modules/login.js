@@ -1,6 +1,6 @@
 seajs.use(['sweetalert2', 'pace'], function (_) {
-    $('#submit').on('click', function () {
-        Pace.restart();
+    $('#loginForm').on('submit', function (e) {
+        e.preventDefault(); // 阻止表单的默认提交行为
 
         var username = $('#username').val();
         var password = $('#password').val();
@@ -22,7 +22,7 @@ seajs.use(['sweetalert2', 'pace'], function (_) {
             data: formData, // 发送 JSON 格式的请求体
             success: function (response) {
                 console.log(response);
-                if (response.status == 0) {
+                if (response.status == 0 && response.data) {
                     var tokenName = response.data.tokenName;
                     var tokenValue = response.data.tokenValue;
                     var loginId = response.data.loginId;
@@ -46,5 +46,6 @@ seajs.use(['sweetalert2', 'pace'], function (_) {
                 });
             }
         });
+
     });
 });
