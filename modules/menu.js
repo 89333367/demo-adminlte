@@ -21,8 +21,12 @@ define(function (require, exports, module) {
                 console.log('切换菜单', $this.attr('href'));
                 urlhash.setHash($this.attr('href').substring(1));
                 $menu.find('a').removeClass('active');
-                seajs.use('modules/' + urlhash.getHash(), function (module) { module.init(); });
                 $this.addClass('active');
+                // 查找外层的 a 标签并添加 active 类
+                var $outerA = $this.closest('.nav-treeview').parent().find('> a.nav-link');
+                $outerA.addClass('active');
+                $outerA.closest('li').addClass('menu-open');
+                seajs.use('modules/' + urlhash.getHash(), function (module) { module.init(); });
             }
         });
 
