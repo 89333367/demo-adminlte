@@ -84,9 +84,14 @@
   <!-- AdminLTE App -->
   <script src="dist/js/adminlte.min.js"></script>
 
-  <script src="plugins/seajs/sea.js"></script>
-  <script src="modules/config.js"></script>
-  <script src="modules/login.js"></script>
+  <script data-main="modules/main" src="modules/require.js"></script>
+  <script>
+    require(['main'], function () {
+      require(["login"], function (login) {
+        login.init();
+      });
+    });
+  </script>
 </body>
 
 </html>
