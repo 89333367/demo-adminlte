@@ -17,6 +17,10 @@ seajs.config({
         USER_LOGOUT: function () {
             //登出
             return this.BASE_URL + '/user/logout';
+        },
+        DASHBOARD_STATISTICS: function () {
+            //获取统计数据
+            return this.BASE_URL + '/dashboard/statistics';
         }
     }
 });
