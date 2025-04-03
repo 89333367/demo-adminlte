@@ -1,4 +1,4 @@
-define(['pace', 'sweetalert2'], function (Pace, Swal) {
+define(['adminlte', 'sweetalert2', 'pace'], function (adminlte, Swal, Pace) {
     $('#loginForm').on('submit', function (e) {
         e.preventDefault(); // 阻止表单的默认提交行为
 
@@ -11,28 +11,27 @@ define(['pace', 'sweetalert2'], function (Pace, Swal) {
                 password: $('#password').val(),
                 remember: $('#remember').prop('checked')
             }),
-            beforeSend: function (xhr, settings) {
+            beforeSend: function (jqXHR, settings) {
                 Pace.restart();
             },
-            success: function (response) {
-                console.log(response);
-                if (response.status == 0 && response.data && response.data.tokenName && response.data.tokenValue && response.data.loginId) {
-                    localStorage.setItem('tokenName', response.data.tokenName);
-                    localStorage.setItem('tokenValue', response.data.tokenValue);
-                    localStorage.setItem('loginId', response.data.loginId);
+            success: function (data, textStatus, jqXHR) {
+                if (data.status == 0 && data.data && data.data.tokenName && data.data.tokenValue && data.data.loginId) {
+                    localStorage.setItem('tokenName', data.data.tokenName);
+                    localStorage.setItem('tokenValue', data.data.tokenValue);
+                    localStorage.setItem('loginId', data.data.loginId);
                     window.location.href = 'index.html';
                 } else {
                     Swal.fire({
                         title: "登入异常",
-                        text: response.message,
+                        text: data.message,
                         icon: "error"
                     });
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 Swal.fire({
                     title: "登入异常",
-                    text: error,
+                    text: errorThrown,
                     icon: "error"
                 });
             }
@@ -44,6 +43,9 @@ define(['pace', 'sweetalert2'], function (Pace, Swal) {
             localStorage.removeItem('tokenName');
             localStorage.removeItem('tokenValue');
             localStorage.removeItem('loginId');
+
+            $('body').Layout('init');
+            $('.login-box').show();
         }
     }
 });
