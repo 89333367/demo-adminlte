@@ -41,7 +41,9 @@ define(['text!tpl/menu.html', 'urlhash', 'common'], function (tpl, urlhash, comm
                         $menu.find('a[href="#' + urlhash.getHash() + '"]').trigger('click');
                     }
                 }
-                common.initAdminLTE();
+
+                $('[data-widget="pushmenu"]').PushMenu('init');
+                $('[data-widget="treeview"]').Treeview('init');
             });
         }
     }

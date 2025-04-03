@@ -12,7 +12,8 @@ define(['text!tpl/ota/dashboard.html'], function (tpl) {
                     success: function (response) {
                         common.renderTpl(tpl, { datas: response.data }, function (html) {
                             $('#bodyContent').html(html);
-                            common.initAdminLTE();
+
+                            $('.card').CardWidget('init');
                         });
                     }
                 });

@@ -55,40 +55,6 @@ define(['adminlte', 'urlhash', 'handlebars', 'pace'], function (adminlte, urlhas
     return {
         init: function () {
         },
-        initAdminLTE: function () {
-            /**
-             *   exports.CardRefresh = CardRefresh;
-                exports.CardWidget = CardWidget;
-                exports.ControlSidebar = ControlSidebar;
-                exports.DirectChat = DirectChat;
-                exports.Dropdown = Dropdown;
-                exports.ExpandableTable = ExpandableTable;
-                exports.Fullscreen = Fullscreen;
-                exports.IFrame = IFrame;
-                exports.Layout = Layout;
-                exports.NavbarSearch = NavbarSearch;
-                exports.PushMenu = PushMenu;
-                exports.SidebarSearch = SidebarSearch;
-                exports.Toasts = Toasts;
-                exports.TodoList = TodoList;
-                exports.Treeview = Treeview;
-             */
-            //$('[data-card-widget="card-refresh"]').CardRefresh();
-            $('.card').CardWidget('init');
-            $('[data-widget="control-sidebar"]').ControlSidebar('init');
-            $('[data-widget="direct-chat"]').DirectChat('init');
-            $('[data-widget="dropdown"]').Dropdown('init');
-            $('[data-widget="expandable-table"]').ExpandableTable('init');
-            //$('[data-widget="fullscreen"]').Fullscreen();
-            $('[data-widget="iframe"]').IFrame('init');
-            $('body').Layout('init');
-            $('[data-widget="navbar-search"]').NavbarSearch('init');
-            $('[data-widget="pushmenu"]').PushMenu('init');
-            $('[data-widget="sidebar-search"]').SidebarSearch('init');
-            $('[data-widget="toasts"]').Toasts('init');
-            $('[data-widget="todo-list"]').TodoList('init');
-            $('[data-widget="treeview"]').Treeview('init');
-        },
         /**
          * 渲染模版
          * @param {*} tpl 
