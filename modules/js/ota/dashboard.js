@@ -1,4 +1,4 @@
-define(['text!tpl/ota/dashboard.html'], function (tpl) {
+define(['text!tpl/ota/dashboard.html', 'adminlte'], function (tpl, adminlte) {
     return {
         init: function () {
             require(['common'], function (common) {
@@ -12,8 +12,6 @@ define(['text!tpl/ota/dashboard.html'], function (tpl) {
                     success: function (response) {
                         common.renderTpl(tpl, { datas: response.data }, function (html) {
                             $('#bodyContent').html(html);
-
-                            $('.card').CardWidget('init');
                         });
                     }
                 });

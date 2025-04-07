@@ -5,6 +5,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>大数据支撑平台</title>
+
+  <script data-main="modules/main" src="modules/require.js"></script>
+  <script>
+    require(['main'], function (main) {
+      require(['index'], function (index) {
+        index.init();
+      });
+    })
+  </script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -13,7 +22,7 @@
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
 
-  <div class="wrapper" style="display: none;">
+  <div class="wrapper preHide" style="display: none;">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
@@ -89,15 +98,6 @@
     </footer>
   </div>
   <!-- ./wrapper -->
-
-  <script data-main="modules/main" src="modules/require.js"></script>
-  <script>
-    require(['main'], function (main) {
-      require(['index'], function (index) {
-        index.init();
-      });
-    })
-  </script>
 </body>
 
 </html>

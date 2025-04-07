@@ -19,6 +19,7 @@ define(['text!tpl/menu.html', 'urlhash', 'common'], function (tpl, urlhash, comm
                             module.init();
                         }
                     });
+                    localStorage.setItem('preUrlHash', urlhash.getHash());
                 }
             });
 
@@ -41,9 +42,6 @@ define(['text!tpl/menu.html', 'urlhash', 'common'], function (tpl, urlhash, comm
                         $menu.find('a[href="#' + urlhash.getHash() + '"]').trigger('click');
                     }
                 }
-
-                $('[data-widget="pushmenu"]').PushMenu('init');
-                $('[data-widget="treeview"]').Treeview('init');
             });
         }
     }

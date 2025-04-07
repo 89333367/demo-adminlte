@@ -1,4 +1,4 @@
-define(['adminlte', 'sweetalert2', 'pace'], function (adminlte, Swal, Pace) {
+define(['jquery', 'sweetalert2'], function (jQuery, Swal) {
     $('#loginForm').on('submit', function (e) {
         e.preventDefault(); // 阻止表单的默认提交行为
 
@@ -43,9 +43,6 @@ define(['adminlte', 'sweetalert2', 'pace'], function (adminlte, Swal, Pace) {
             localStorage.removeItem('tokenName');
             localStorage.removeItem('tokenValue');
             localStorage.removeItem('loginId');
-
-            $('body').Layout('init');
-            $('.login-box').show();
         }
     }
 });
