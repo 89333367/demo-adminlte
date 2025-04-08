@@ -18,20 +18,25 @@
 
 <body class="hold-transition sidebar-mini">
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  <div class="preloader"
+    style="-ms-flex-pack: center !important;justify-content: center !important;-ms-flex-align: center !important;align-items: center !important;display: -ms-flexbox;display: flex;background-color: #f4f6f9;height: 100vh;width: 100%;transition: height 200ms linear;position: fixed;left: 0;top: 0;z-index: 9999;">
     <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
 
   <div class="wrapper hide" style="display: none;">
     <!-- Navbar -->
-    <nav id="headNav" class="main-header navbar navbar-expand navbar-white navbar-light"></nav>
+    <nav id="headNav" class="main-header navbar navbar-expand navbar-white navbar-light">数据加载中...</nav>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside id="leftAside" class="main-sidebar sidebar-dark-primary elevation-4"></aside>
+    <aside id="leftAside" class="main-sidebar sidebar-dark-primary elevation-4">菜单加载中...</aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div id="bodyContent" class="content-wrapper"></div>
+    <div id="bodyContent" class="content-wrapper">
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <div style="margin: 10px;">数据加载中...</div>
+      </div>
+    </div>
     <!-- /.content-wrapper -->
 
     <!-- Main Footer -->

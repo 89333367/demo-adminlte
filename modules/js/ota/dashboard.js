@@ -1,4 +1,4 @@
-define(['text!tpl/ota/dashboard.html', 'adminlte'], function (tpl, adminlte) {
+define(['text!tpl/ota/dashboard.html', 'adminlte', 'datatables.net-bs4'], function (tpl, adminlte, datatables) {
     return {
         init: function () {
             require(['common'], function (common) {
@@ -7,6 +7,8 @@ define(['text!tpl/ota/dashboard.html', 'adminlte'], function (tpl, adminlte) {
                     success: function (data, textStatus, jqXHR) {
                         common.renderTpl(tpl, { datas: data.data }, function (html) {
                             $('#bodyContent').html(html);
+
+
                         });
                     }
                 });

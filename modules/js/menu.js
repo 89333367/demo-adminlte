@@ -2,12 +2,16 @@ define(['text!tpl/menu.html', 'urlhash', 'common'], function (tpl, urlhash, comm
     return {
         init: function () {
             common.renderTpl(tpl, {}, function (html) {
+                Pace.restart();
+
                 $('#leftAside').html(html);
 
                 var $menu = $('#leftAside ul[role="menu"]');
                 $menu.on('click', 'a', function () {
                     var $this = $(this);
                     if ($this.attr('href') != '#') {
+                        Pace.restart();
+
                         urlhash.setHash($this.attr('href').substring(1));
                         $menu.find('a').removeClass('active');
                         $this.addClass('active');
