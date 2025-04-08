@@ -16,7 +16,6 @@ require.config({
         'sweetalert2': '../plugins/sweetalert2/sweetalert2.all.min',//all.min包含了css样式
         'pace': '../plugins/pace-progress/pace.min',
         'handlebars': '../plugins/handlebars/handlebars.min',
-        'overlayScrollbars': '../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min',
 
         // 自定义模块
         'urlhash': 'common/urlhash',
@@ -25,7 +24,9 @@ require.config({
         // 页面模块
         'login': 'js/login',
         'index': 'js/index',
-        'menu': 'js/menu'
+        'menu': 'js/menu',
+        'header': 'js/header',
+        'footer': 'js/footer'
     },
     shim: {
         // 配置依赖关系
@@ -33,21 +34,14 @@ require.config({
             deps: ['css!../plugins/pace-progress/themes/black/pace-theme-big-counter.css'],
             exports: 'Pace'
         },
-        'overlayScrollbars': {
-            deps: [
-                'css!../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',
-                'jquery'
-            ]
-        },
         'adminlte': {
             deps: [
                 'css!../plugins/icheck-bootstrap/icheck-bootstrap.min.css',
                 'css!../plugins/fontawesome-free/css/all.min.css',
                 'css!../dist/css/adminlte.min.css',
-                'bootstrap',
                 'pace',
-                'jquery',
-                'overlayScrollbars'
+                'bootstrap',
+                'jquery'
             ]
         }
     }
@@ -95,7 +89,7 @@ require(['domReady'], function (domReady) {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             }) */
 
-            $('.preHide').show();
+            $('.hide').show();
         });
     });
 });

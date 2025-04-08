@@ -4,8 +4,11 @@ define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebar
         return colors[index % colors.length];
     });
 
-    // 全局 AJAX 请求拦截
-    $.ajaxSetup({
+    var ajaxOptions = {
+        url: '',//apiUrls.DASHBOARD_STATISTICS()
+        method: 'POST',
+        contentType: 'application/json', // 设置请求体内容类型为 JSON
+        data: JSON.stringify({}),
         beforeSend: function (jqXHR, settings) {
             Pace.restart();
 
@@ -18,8 +21,6 @@ define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebar
             }
             jqXHR.setRequestHeader(tokenName, localStorage.getItem('tokenValue'));
             jqXHR.setRequestHeader('loginId', localStorage.getItem('loginId'));
-        },
-        complete: function (jqXHR, textStatus) {
         },
         success: function (data, textStatus, jqXHR) {
             try {
@@ -49,8 +50,13 @@ define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebar
         error: function (jqXHR, textStatus, errorThrown) {
             // 处理请求错误
             console.error('AJAX 请求错误:', textStatus, errorThrown);
+        }, complete: function (jqXHR, textStatus) {
         }
-    });
+    };
+    /**
+     * 设置全局 ajax 选项
+     */
+    $.ajaxSetup(ajaxOptions);
 
     return {
         init: function () {
@@ -67,6 +73,42 @@ define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebar
             if (callback && callback instanceof Function) {
                 callback(html);
             }
+        },
+        /**
+         * ajax封装
+         * @param {*} options 
+         */
+        ajax: function (options) {
+            var opts = $.extend({}, ajaxOptions, options);
+            if (options.beforeSend) {
+                var originalBeforeSend = options.beforeSend;
+                opts.beforeSend = function (jqXHR, settings) {
+                    ajaxOptions.beforeSend(jqXHR, settings);
+                    originalBeforeSend(jqXHR, settings);
+                };
+            }
+            if (options.success) {
+                var originalSuccess = options.success;
+                opts.success = function (data, textStatus, jqXHR) {
+                    ajaxOptions.success(data, textStatus, jqXHR);
+                    originalSuccess(data, textStatus, jqXHR);
+                };
+            }
+            if (options.error) {
+                var originalError = options.error;
+                opts.error = function (jqXHR, textStatus, errorThrown) {
+                    ajaxOptions.error(jqXHR, textStatus, errorThrown);
+                    originalError(jqXHR, textStatus, errorThrown);
+                };
+            }
+            if (options.complete) {
+                var originalComplete = options.complete;
+                opts.complete = function (jqXHR, textStatus) {
+                    ajaxOptions.complete(jqXHR, textStatus);
+                    originalComplete(jqXHR, textStatus);
+                };
+            }
+            $.ajax(opts);
         }
     }
 });

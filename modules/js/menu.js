@@ -1,30 +1,30 @@
 define(['text!tpl/menu.html', 'urlhash', 'common'], function (tpl, urlhash, common) {
     return {
         init: function () {
-            var $menu = $('ul[role="menu"]');
-
-            $menu.on('click', 'a', function () {
-                var $this = $(this);
-                if ($this.attr('href') != '#') {
-                    urlhash.setHash($this.attr('href').substring(1));
-                    $menu.find('a').removeClass('active');
-                    $this.addClass('active');
-                    // 查找外层的 a 标签并添加 active 类
-                    var $outerA = $this.closest('.nav-treeview').parent().find('> a.nav-link');
-                    $outerA.addClass('active');
-                    $outerA.closest('li').addClass('menu-open');
-                    var modulePath = 'js/' + urlhash.getHash();
-                    require([modulePath], function (module) {
-                        if (module && module.init && module.init instanceof Function) {
-                            module.init();
-                        }
-                    });
-                    localStorage.setItem('preUrlHash', urlhash.getHash());
-                }
-            });
-
             common.renderTpl(tpl, {}, function (html) {
-                $menu.children('li').last().before(html);
+                $('#leftAside').html(html);
+
+                var $menu = $('#leftAside ul[role="menu"]');
+                $menu.on('click', 'a', function () {
+                    var $this = $(this);
+                    if ($this.attr('href') != '#') {
+                        urlhash.setHash($this.attr('href').substring(1));
+                        $menu.find('a').removeClass('active');
+                        $this.addClass('active');
+                        // 查找外层的 a 标签并添加 active 类
+                        var $outerA = $this.closest('.nav-treeview').parent().find('> a.nav-link');
+                        $outerA.addClass('active');
+                        $outerA.closest('li').addClass('menu-open');
+                        var modulePath = 'js/' + urlhash.getHash();
+                        require([modulePath], function (module) {
+                            if (module && module.init && module.init instanceof Function) {
+                                module.init();
+                            }
+                        });
+                        localStorage.setItem('preUrlHash', urlhash.getHash());
+                    }
+                });
+
                 var urlHash = localStorage.getItem('preUrlHash');
                 if (urlHash) {
                     urlhash.setHash(urlHash);

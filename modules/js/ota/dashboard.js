@@ -2,15 +2,10 @@ define(['text!tpl/ota/dashboard.html', 'adminlte'], function (tpl, adminlte) {
     return {
         init: function () {
             require(['common'], function (common) {
-                $.ajax({
-                    global: true,
+                common.ajax({
                     url: apiUrls.DASHBOARD_STATISTICS(),
-                    method: 'POST',
-                    contentType: 'application/json', // 设置请求体内容类型为 JSON
-                    data: JSON.stringify({
-                    }),
-                    success: function (response) {
-                        common.renderTpl(tpl, { datas: response.data }, function (html) {
+                    success: function (data, textStatus, jqXHR) {
+                        common.renderTpl(tpl, { datas: data.data }, function (html) {
                             $('#bodyContent').html(html);
                         });
                     }
