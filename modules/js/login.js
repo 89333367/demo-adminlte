@@ -1,4 +1,4 @@
-define(['jquery', 'sweetalert2'], function (jQuery, Swal) {
+define(['sweetalert2', 'jquery'], function (Swal) {
     $('#loginForm').on('submit', function (e) {
         e.preventDefault(); // 阻止表单的默认提交行为
 

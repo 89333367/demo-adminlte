@@ -1,4 +1,4 @@
-define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebars, Pace, jQuery) {
+define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebars, Pace) {
     var colors = ['cyan', 'green', 'yellow', 'red', 'blue', 'secondary', 'orange', 'purple', 'fuchsia'];
     Handlebars.registerHelper('getColor', function (index) {
         return colors[index % colors.length];

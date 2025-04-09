@@ -1,49 +1,57 @@
 require.config({
     baseUrl: 'modules/',
     urlArgs: 'v=' + (new Date()).getTime(),
+    waitSeconds: 7, // 超时时间，秒
     paths: {
         // requirejs插件
-        'css': ['https://cdn.bootcdn.net/ajax/libs/require-css/0.1.10/css.min'],
-        'text': ['https://cdn.bootcdn.net/ajax/libs/require-text/2.0.12/text.min'],
+        'css': ['https://cdnjs.cloudflare.com/ajax/libs/require-css/0.1.10/css.min'],
+        'text': ['https://cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min'],
         'domReady': ['https://cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min'],
 
         // AdminLTE插件
-        'jquery': ['https://code.jquery.com/jquery-3.7.0.min'],
-        'bootstrap': ['https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min'],
+        'jquery': ['https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min'],
+        'bootstrap': ['https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min'],
         'adminlte': ['https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min'],
 
         // 三方插件
+        'es6-promise': ['https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.2.8/es6-promise.auto.min'],
         'sweetalert2': ['https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.all.min'],//all.min包含了css样式
-        'pace': ['https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min'],
+        'pace': ['https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min'],
         'handlebars': ['https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min'],
         // datatables
-        'datatables.net': 'https://cdn.datatables.net/2.2.2/js/dataTables.min',
-        'datatables.net-bs4': 'https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap4.min',
+        'datatables.net': ['https://cdn.datatables.net/2.2.2/js/dataTables.min'],
+        'datatables.net-bs4': ['https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap4.min'],
+        'datatables.net-fixedcolumns': ['https://cdn.datatables.net/fixedcolumns/5.0.4/js/dataTables.fixedColumns.min'],
+        'datatables.net-fixedcolumns-bs4': ['https://cdn.datatables.net/fixedcolumns/5.0.4/js/fixedColumns.bootstrap4.min'],
+        'datatables.net-fixedheader': ['https://cdn.datatables.net/fixedheader/4.0.1/js/dataTables.fixedHeader.min'],
+        'datatables.net-fixedheader-bs4': ['https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.bootstrap4.min'],
 
         // 自定义模块
-        'urlhash': 'lib/urlhash',
-        'common': 'lib/common',
+        'urlhash': ['lib/urlhash'],
+        'common': ['lib/common'],
 
         // 页面模块
-        'login': 'js/login',
-        'index': 'js/index',
-        'menu': 'js/menu',
-        'header': 'js/header',
-        'footer': 'js/footer'
+        'login': ['js/login'],
+        'index': ['js/index'],
+        'menu': ['js/menu'],
+        'header': ['js/header'],
+        'footer': ['js/footer'],
+
+        //自定义模块
+        'datatable': ['lib/datatable'],
     },
     shim: {
         // 配置依赖关系
         'pace': {
-            deps: ['css!https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/black/pace-theme-big-counter.min.css'],
-            exports: 'Pace'
+            deps: ['css!https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/black/pace-theme-big-counter.min.css'],
         },
         'bootstrap': {
-            deps: ['jquery']
+            deps: ['jquery', 'es6-promise']
         },
         'adminlte': {
             deps: [
                 'css!https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css',
-                'css!https://cdn.bootcdn.net/ajax/libs/font-awesome/6.7.2/css/all.min.css',
+                'css!https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
                 'css!https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css',
                 'pace',
                 'bootstrap'
@@ -51,10 +59,20 @@ require.config({
         },
         'datatables.net-bs4': {
             deps: [
-                'bootstrap',
-                'datatables.net',
+                'css!https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap4.min.css',
+                'bootstrap'
             ]
         },
+        'datatables.net-fixedcolumns-bs4': {
+            deps: [
+                'css!https://cdn.datatables.net/fixedcolumns/5.0.4/css/fixedColumns.bootstrap4.min.css',
+            ]
+        },
+        'datatables.net-fixedheader-bs4': {
+            deps: [
+                'css!https://cdn.datatables.net/fixedheader/4.0.1/css/fixedHeader.bootstrap4.min.css'
+            ]
+        }
     }
 });
 
@@ -74,6 +92,14 @@ apiUrls = {
     DASHBOARD_STATISTICS: function () {
         //获取统计数据
         return this.BASE_URL + '/dashboard/statistics';
+    },
+    DASHBOARD_LIST: function () {
+        //升级状态列表
+        return this.BASE_URL + '/dashboard/list';
+    },
+    DICT_UPGRADEPLANSTATUS: function () {
+        //升级计划状态字典
+        return this.BASE_URL + '/dict/upgradePlanStatus';
     }
 };
 
