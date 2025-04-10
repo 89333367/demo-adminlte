@@ -38,6 +38,7 @@ require.config({
         'footer': ['js/footer'],
 
         //自定义模块
+        'dict': ['js/dict'],
         'datatable': ['lib/datatable'],
     },
     shim: {
@@ -96,6 +97,10 @@ apiUrls = {
     DASHBOARD_LIST: function () {
         //升级状态列表
         return this.BASE_URL + '/dashboard/list';
+    },
+    DICT_UPGRADESTATUS: function () {
+        //升级状态列表
+        return this.BASE_URL + '/dict/upgradeStatus';
     },
     DICT_UPGRADEPLANSTATUS: function () {
         //升级计划状态字典
