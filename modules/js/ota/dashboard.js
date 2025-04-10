@@ -8,6 +8,7 @@ define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'adminlte', 'datatable'
                         $('#bodyContent').html(html);
 
                         Promise.all([dict.DICT_UPGRADESTATUS()]).then((values) => {
+                            var dict_upgradestatus = values[0];
                             $('#datatable').DataTable({
                                 ordering: false,
                                 ajax: {
@@ -36,8 +37,8 @@ define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'adminlte', 'datatable'
                                     , { data: 'planId', title: '升级计划ID' }
                                     , {
                                         data: 'planStatus', title: '升级计划状态', render: function (data, type, row) {
-                                            if (data <= values[0].length) {
-                                                return values[0][data];
+                                            if (data <= dict_upgradestatus.length) {
+                                                return dict_upgradestatus[data];
                                             } else {
                                                 return data;
                                             }
