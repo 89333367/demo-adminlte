@@ -4,10 +4,14 @@ define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'datatable'], function 
             common.ajax({
                 url: apiUrls.DASHBOARD_STATISTICS(),
                 success: function (data, textStatus, jqXHR) {
-                    $('#bodyContent').html(common.renderTpl(tpl, { datas: data.data }));
-
                     Promise.all([dict.DICT_UPGRADESTATUS()]).then((values) => {
                         var dict_upgradestatus = values[0];
+
+                        $('#bodyContent').html(common.renderTpl(tpl, {
+                            datas: data.data,
+                            dict_upgradestatus: dict_upgradestatus
+                        }));
+
                         $('#datatable').DataTable({
                             ordering: false,
                             ajax: {
@@ -22,18 +26,28 @@ define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'datatable'], function 
                                 data: function (d) {
                                     const sortColumn = d.order[0] ? d.columns[d.order[0].column].data : null;
                                     const sortDirection = d.order[0] ? d.order[0].dir : null;
-                                    return JSON.stringify({
-                                        "page": d.start / d.length + 1,
-                                        "pageSize": d.length,
-                                        "sortColumn": sortColumn,
-                                        "sortDirection": sortDirection
-                                    });
+                                    // 新增表单参数合并
+                                    const formData = $('#f').serializeArray().reduce((obj, item) => {
+                                        obj[item.name] = item.value;
+                                        return obj;
+                                    }, {});
+                                    // 使用 jQuery.extend 合并对象
+                                    var requestData = $.extend({}, formData,
+                                        {
+                                            "page": d.start / d.length + 1,
+                                            "pageSize": d.length,
+                                            "sortColumn": sortColumn,
+                                            "sortDirection": sortDirection
+                                        }
+                                    );
+                                    return JSON.stringify(requestData);
                                 }
                             },
                             columns: [
                                 { data: 'terminalId', title: '终端ID' },
                                 { data: 'did', title: '终端编号' },
                                 { data: 'planId', title: '升级计划ID' },
+                                { data: 'planName', title: '升级计划名称' },
                                 {
                                     data: 'planStatus', title: '升级计划状态', render: function (data, type, row) {
                                         if (data <= dict_upgradestatus.length) {
@@ -55,6 +69,12 @@ define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'datatable'], function 
                                 left: 0,
                                 right: 1
                             },
+                        });
+
+                        $('#f').on('submit', function (e) {
+                            e.preventDefault();
+                            // 新增重新加载表格的代码
+                            $('#datatable').DataTable().ajax.reload();
                         });
                     });
                 }

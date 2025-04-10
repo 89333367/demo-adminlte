@@ -56,13 +56,28 @@ define(['jquery', 'datatables.net-bs4', 'datatables.net-fixedcolumns-bs4', 'data
             data: function (d) {
                 const sortColumn = d.order[0] ? d.columns[d.order[0].column].data : null;
                 const sortDirection = d.order[0] ? d.order[0].dir : null;
+                /* // 新增表单参数合并
+                const formData = $('#f').serializeArray().reduce((obj, item) => {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+                // 使用 jQuery.extend 合并对象
+                var requestData = $.extend({}, formData,
+                    {
+                        "page": d.start / d.length + 1,
+                        "pageSize": d.length,
+                        "sortColumn": sortColumn,
+                        "sortDirection": sortDirection
+                    }
+                );
+                return JSON.stringify(requestData); */
                 return JSON.stringify({
                     "page": d.start / d.length + 1,
                     "pageSize": d.length,
                     "sortColumn": sortColumn,
                     "sortDirection": sortDirection
                 });
-            }
+            },
         },
         // 设置表头居左展示
         columnDefs: [{
