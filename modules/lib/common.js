@@ -1,4 +1,4 @@
-define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebars, Pace) {
+define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebars) {
     var colors = ['cyan', 'green', 'yellow', 'red', 'blue', 'secondary', 'orange', 'purple', 'fuchsia'];
     Handlebars.registerHelper('getColor', function (index) {
         return colors[index % colors.length];
@@ -62,17 +62,15 @@ define(['urlhash', 'handlebars', 'pace', 'jquery'], function (urlhash, Handlebar
         init: function () {
         },
         /**
-         * 渲染模版
+         * 返回渲染后模版
          * @param {*} tpl 
          * @param {*} data 
-         * @param {*} callback 
+         * @returns 
          */
-        renderTpl: function (tpl, data, callback) {
+        renderTpl: function (tpl, data) {
             var template = Handlebars.compile(tpl);
             var html = template(data);
-            if (callback && callback instanceof Function) {
-                callback(html);
-            }
+            return html;
         },
         /**
          * ajax封装

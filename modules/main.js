@@ -18,6 +18,7 @@ require.config({
         'sweetalert2': ['https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.all.min'],//all.min包含了css样式
         'pace': ['https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min'],
         'handlebars': ['https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min'],
+
         // datatables
         'datatables.net': ['https://cdn.datatables.net/2.2.2/js/dataTables.min'],
         'datatables.net-bs4': ['https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap4.min'],
@@ -47,7 +48,7 @@ require.config({
             deps: ['css!https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/black/pace-theme-big-counter.min.css'],
         },
         'bootstrap': {
-            deps: ['jquery', 'es6-promise']
+            deps: ['jquery']
         },
         'adminlte': {
             deps: [
@@ -67,11 +68,13 @@ require.config({
         'datatables.net-fixedcolumns-bs4': {
             deps: [
                 'css!https://cdn.datatables.net/fixedcolumns/5.0.4/css/fixedColumns.bootstrap4.min.css',
+                'datatables.net-bs4'
             ]
         },
         'datatables.net-fixedheader-bs4': {
             deps: [
-                'css!https://cdn.datatables.net/fixedheader/4.0.1/css/fixedHeader.bootstrap4.min.css'
+                'css!https://cdn.datatables.net/fixedheader/4.0.1/css/fixedHeader.bootstrap4.min.css',
+                'datatables.net-bs4'
             ]
         }
     }
@@ -108,9 +111,9 @@ apiUrls = {
     }
 };
 
-require(['domReady'], function (domReady) {
+require(['domReady', 'es6-promise'], function (domReady) {
     domReady(function () {
-        require(['adminlte'], function (adminlte) {
+        require(['adminlte'], function () {
             //$('[data-card-widget="card-refresh"]').CardRefresh();
             //$('.card').CardWidget('init');
             //$('[data-widget="control-sidebar"]').ControlSidebar('init');
@@ -131,7 +134,7 @@ require(['domReady'], function (domReady) {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             }) */
 
-            $('.hide').show();
+            $('.preloader_hide').show();
         });
     });
 });

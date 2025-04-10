@@ -1,9 +1,7 @@
-define(['text!tpl/404.html', 'common'], function (tpl, common) {
+define(['text!tpl/404.html'], function (tpl) {
     return {
         init: function () {
-            common.renderTpl(tpl, {}, function (html) {
-                $('#bodyContent').html(html);
-            });
+            $('#bodyContent').html(tpl);
         }
     }
 });

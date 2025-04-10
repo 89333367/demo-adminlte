@@ -1,9 +1,7 @@
-define(['text!tpl/footer.html', 'common'], function (tpl, common) {
+define(['text!tpl/footer.html'], function (tpl) {
     return {
         init: function () {
-            common.renderTpl(tpl, {}, function (html) {
-                $('#footer').html(html);
-            });
+            $('#footer').html(tpl);
         }
     }
 });

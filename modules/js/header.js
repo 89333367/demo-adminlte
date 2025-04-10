@@ -1,9 +1,7 @@
-define(['text!tpl/header.html', 'common'], function (tpl, common) {
+define(['text!tpl/header.html'], function (tpl) {
     return {
         init: function () {
-            common.renderTpl(tpl, {}, function (html) {
-                $('#headNav').html(html);
-            });
+            $('#headNav').html(tpl);
         }
     }
 });

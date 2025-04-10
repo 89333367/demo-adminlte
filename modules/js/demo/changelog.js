@@ -1,9 +1,7 @@
-define(['text!tpl/demo/changelog.html', 'common'], function (tpl, common) {
+define(['text!tpl/demo/changelog.html'], function (tpl) {
     return {
         init: function () {
-            common.renderTpl(tpl, {}, function (html) {
-                $('#bodyContent').html(html);
-            });
+            $('#bodyContent').html(tpl);
         }
     }
 });

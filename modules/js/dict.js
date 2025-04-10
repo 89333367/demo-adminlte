@@ -22,11 +22,10 @@ define(['common'], function (common) {
                 resolve(datas);
             }
         })
-    })
+    });
 
     return {
         init: function () {
-
         },
         /**
          * 升级计划状态字典
