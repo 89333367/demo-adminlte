@@ -1,4 +1,4 @@
-define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'adminlte', 'datatable'], function (tpl, common, dict) {
+define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'datatable'], function (tpl, common, dict) {
     return {
         init: function () {
             common.ajax({

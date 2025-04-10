@@ -1,4 +1,4 @@
-define(['text!tpl/menu.html', 'urlhash'], function (tpl, urlhash) {
+define(['text!tpl/menu.html', 'text!tpl/loading.html', 'urlhash'], function (tpl, loading, urlhash) {
     return {
         init: function () {
             Pace.restart();
@@ -9,6 +9,8 @@ define(['text!tpl/menu.html', 'urlhash'], function (tpl, urlhash) {
                 var $this = $(this);
                 if ($this.attr('href') != '#') {
                     Pace.restart();
+
+                    $('#bodyContent').html(loading);
 
                     urlhash.setHash($this.attr('href').substring(1));
                     $menu.find('a').removeClass('active');
