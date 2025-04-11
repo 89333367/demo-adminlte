@@ -13,16 +13,8 @@ define(['text!tpl/ota/dashboard.html', 'common', 'dict', 'datatable'], function 
                         }));
 
                         $('#datatable').DataTable({
-                            ordering: false,
                             ajax: {
                                 url: apiUrls.DASHBOARD_LIST(),
-                                type: 'post',
-                                contentType: 'application/json',
-                                dataSrc: {
-                                    data: 'data.records',
-                                    recordsTotal: 'data.total',
-                                    recordsFiltered: 'data.total'
-                                },
                                 data: function (d) {
                                     const sortColumn = d.order[0] ? d.columns[d.order[0].column].data : null;
                                     const sortDirection = d.order[0] ? d.order[0].dir : null;

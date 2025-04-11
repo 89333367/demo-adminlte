@@ -12,13 +12,13 @@ define(['jquery', 'datatables.net-bs4', 'datatables.net-fixedcolumns-bs4', 'data
     $.extend($.fn.dataTable.defaults, {
         processing: false,
         serverSide: true,
-        pagingType: 'simple',
+        pagingType: 'simple',//只显示上一页和下一页按钮
         lengthMenu: [[10, 20, 50, 100, 200, 500, 1000], [10, 20, 50, 100, 200, 500, 1000]],
         pageLength: 10,
         scrollY: window.innerHeight,
         scrollCollapse: true,
         searching: false,
-        ordering: true,
+        ordering: false,
         //order: [[0, 'desc']],
         columns: [
             /* { data: 'terminalId', title: '终端ID', visible: false, orderable: false }
@@ -109,4 +109,11 @@ define(['jquery', 'datatables.net-bs4', 'datatables.net-fixedcolumns-bs4', 'data
             }
         }
     });
+
+    return {
+        init: function () {
+        },
+        DynamicDataTable: function (options) {
+        }
+    }
 });
