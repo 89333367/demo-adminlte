@@ -12,7 +12,7 @@ define(['text!tpl/menu.html', 'text!tpl/loading.html', 'urlhash'], function (tpl
 
                     $('#bodyContent').html(loading);
 
-                    urlhash.setHash($this.attr('href').substring(1));
+                    urlhash.setHash($this.attr('href'));
                     $menu.find('a').removeClass('active');
                     $this.addClass('active');
                     // 查找外层的 a 标签并添加 active 类

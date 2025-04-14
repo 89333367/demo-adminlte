@@ -76,7 +76,13 @@ require.config({
                 'css!https://cdn.datatables.net/fixedheader/4.0.1/css/fixedHeader.bootstrap4.min.css',
                 'datatables.net-bs4'
             ]
-        }
+        },
+        'datatables.net-buttons-bs4': {
+            deps: [
+                'css!https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap4.min.css',
+                'datatables.net-buttons'
+            ]
+        },
     }
 });
 

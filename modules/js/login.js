@@ -6,6 +6,7 @@ define(['sweetalert2', 'jquery'], function (Swal) {
             url: apiUrls.USER_LOGIN(),
             method: 'POST',
             contentType: 'application/json',
+            dataType: 'json',
             data: JSON.stringify({
                 username: $('#username').val(),
                 password: $('#password').val(),
