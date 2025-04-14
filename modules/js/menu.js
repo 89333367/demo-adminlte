@@ -19,7 +19,7 @@ define(['text!tpl/menu.html', 'text!tpl/loading.html', 'urlhash'], function (tpl
                     var $outerA = $this.closest('.nav-treeview').parent().find('> a.nav-link');
                     $outerA.addClass('active');
                     $outerA.closest('li').addClass('menu-open');
-                    var modulePath = 'js/' + urlhash.getHash();
+                    var modulePath = 'js' + urlhash.getHash();
                     require([modulePath], function (module) {
                         if (module && module.init && module.init instanceof Function) {
                             module.init();

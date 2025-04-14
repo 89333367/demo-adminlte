@@ -86,6 +86,59 @@ require.config({
     }
 });
 
+// 在文件顶部定义重试配置
+const retryConfig = {
+    maxAttempts: 7, // 最大重试次数
+    retryDelay: 7000 // 重试间隔(ms)
+};
+// 存储重试次数
+window._moduleRetries = window._moduleRetries || {};
+require.onError = function (err) {
+    const failedModules = err.requireModules || [];
+
+    failedModules.forEach(moduleId => {
+        // 初始化重试计数器
+        if (!window._moduleRetries[moduleId]) {
+            window._moduleRetries[moduleId] = 0;
+        }
+
+        if (window._moduleRetries[moduleId] < retryConfig.maxAttempts) {
+            window._moduleRetries[moduleId]++;
+            console.warn(`[${moduleId}] 第 ${window._moduleRetries[moduleId]} 次重试`);
+
+            // 清除模块缓存
+            requirejs.undef(moduleId);
+
+            // 延迟重试
+            setTimeout(() => {
+                requirejs([moduleId], () => {
+                    console.log(`[${moduleId}] 重试成功`);
+                }, (newErr) => {
+                    console.error(`[${moduleId}] 重试失败`, newErr);
+                });
+            }, retryConfig.retryDelay);
+
+        } else {
+            console.error(`[${moduleId}] 超过最大重试次数`);
+            alert(`资源加载失败，已重试 ${retryConfig.maxAttempts} 次\n请检查网络连接后刷新页面`);
+        }
+    });
+};
+
+require.onResourceLoad = function (context, map, depMaps) {
+    console.log('onResourceLoad', map.name);
+    const loaderElement = document.querySelector('#loading-modules');
+    if (loaderElement) {
+        const li = document.createElement('li');
+        li.textContent = map.name;
+        loaderElement.appendChild(li);
+        if (Pace) {
+            Pace.restart();
+        }
+    }
+};
+
+
 /**
  * 所有接口地址
  */
