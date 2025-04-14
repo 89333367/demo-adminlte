@@ -141,8 +141,6 @@ require.config({
                 // 更新加载计数
                 cfg.progress.loaded++;
                 cfg.progress.updatePercent();
-
-                Pace && Pace.restart();
             }
         }
     },
@@ -210,7 +208,7 @@ require.onResourceLoad = function (context, map, depMaps) {
     const utils = cfg.utils;
     const moduleName = map.name;
 
-    console.log('onResourceLoad', moduleName);
+    console.log('加载模块', moduleName);
     utils.appendLoader(moduleName);
 };
 

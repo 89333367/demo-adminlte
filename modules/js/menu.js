@@ -1,15 +1,12 @@
 define(['text!tpl/menu.html', 'text!tpl/loading.html', 'urlhash'], function (tpl, loading, urlhash) {
     return {
         init: function () {
-            Pace.restart();
             $('#leftAside').html(tpl);
 
             var $menu = $('#leftAside ul[role="menu"]');
             $menu.on('click', 'a', function () {
                 var $this = $(this);
                 if ($this.attr('href') != '#') {
-                    Pace.restart();
-
                     $('#bodyContent').html(loading);
 
                     urlhash.setHash($this.attr('href'));
