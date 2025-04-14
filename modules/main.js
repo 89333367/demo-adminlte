@@ -1,3 +1,43 @@
+/**
+ * 所有接口地址
+ */
+apiUrls = {
+    BASE_URL: 'http://bcnytest.bcnyyun.com/dapr-service-iot-ota',
+    USER_LOGIN: function () {
+        //登入
+        return this.BASE_URL + '/user/login';
+    },
+    USER_LOGOUT: function () {
+        //登出
+        return this.BASE_URL + '/user/logout';
+    },
+    DASHBOARD_STATISTICS: function () {
+        //获取统计数据
+        return this.BASE_URL + '/dashboard/statistics';
+    },
+    DASHBOARD_LIST: function () {
+        //升级状态列表
+        return this.BASE_URL + '/dashboard/list';
+    },
+    DICT_UPGRADESTATUS: function () {
+        //升级状态列表
+        return this.BASE_URL + '/dict/upgradeStatus';
+    },
+    DICT_UPGRADEPLANSTATUS: function () {
+        //升级计划状态字典
+        return this.BASE_URL + '/dict/upgradePlanStatus';
+    }
+};
+
+/**
+ * requirejs配置
+ * 注意：
+ * 1. 配置的baseUrl是相对于index.html的路径
+ * 2. 配置的urlArgs是为了避免浏览器缓存，每次请求都会加上时间戳
+ * 3. 配置的waitSeconds是为了避免请求超时，超时时间为7秒
+ * 4. 配置的shim是为了配置依赖关系
+ * 5. 配置的paths是为了配置模块的路径，key是模块的名称，value是模块的路径
+ */
 require.config({
     baseUrl: 'modules/',
     urlArgs: 'v=' + (new Date()).getTime(),
@@ -83,93 +123,95 @@ require.config({
                 'datatables.net-buttons'
             ]
         },
+    },
+    retryConfig: {
+        maxAttempts: 7, // 最大重试次数
+        retryDelay: 1000 // 重试间隔(ms)
+    },
+    moduleRetries: {},
+    utils: {
+        appendLoader: function (msg) {
+            const cfg = require.s.contexts._.config;
+            const loader = document.querySelector('#loading-modules');
+            if (loader) {
+                const li = document.createElement('li');
+                li.textContent = msg;
+                loader.appendChild(li);
+
+                // 更新加载计数
+                cfg.progress.loaded++;
+                cfg.progress.updatePercent();
+
+                Pace && Pace.restart();
+            }
+        }
+    },
+    progress: {
+        total: 0,
+        loaded: 0,
+        updatePercent: function () {
+            const percent = this.loaded / this.total * 100 || 0;
+            const element = document.getElementById('loading-percent');
+            if (element) {
+                element.textContent = `${Math.min(100, percent.toFixed(0))}%`;
+            }
+        }
     }
 });
-
-// 在文件顶部定义重试配置
-const retryConfig = {
-    maxAttempts: 7, // 最大重试次数
-    retryDelay: 7000 // 重试间隔(ms)
-};
-// 存储重试次数
-window._moduleRetries = window._moduleRetries || {};
+/**
+ * 模块加载失败时的重试机制
+ * @param {*} err 
+ */
 require.onError = function (err) {
-    const failedModules = err.requireModules || [];
+    const cfg = require.s.contexts._.config;
+    const retryCfg = cfg.retryConfig;
+    const utils = cfg.utils;
+    const retries = cfg.moduleRetries;
 
-    failedModules.forEach(moduleId => {
-        // 初始化重试计数器
-        if (!window._moduleRetries[moduleId]) {
-            window._moduleRetries[moduleId] = 0;
-        }
+    (err.requireModules || []).forEach(moduleId => {
+        retries[moduleId] = retries[moduleId] || 0;
 
-        if (window._moduleRetries[moduleId] < retryConfig.maxAttempts) {
-            window._moduleRetries[moduleId]++;
-            console.warn(`[${moduleId}] 第 ${window._moduleRetries[moduleId]} 次重试`);
+        if (retries[moduleId] < retryCfg.maxAttempts) {
+            retries[moduleId]++;
+            const msg = `[${moduleId}] 第 ${retries[moduleId]} 次重试`;
+            console.warn(msg);
+            utils.appendLoader(msg);
 
-            // 清除模块缓存
-            requirejs.undef(moduleId);
+            require.undef(moduleId);
 
-            // 延迟重试
             setTimeout(() => {
-                requirejs([moduleId], () => {
-                    console.log(`[${moduleId}] 重试成功`);
-                }, (newErr) => {
-                    console.error(`[${moduleId}] 重试失败`, newErr);
-                });
-            }, retryConfig.retryDelay);
-
+                require([moduleId],
+                    () => utils.appendLoader(`[${moduleId}] 重试成功`),
+                    (newErr) => utils.appendLoader(`[${moduleId}] 重试失败`)
+                );
+            }, retryCfg.retryDelay);
         } else {
-            console.error(`[${moduleId}] 超过最大重试次数`);
-            alert(`资源加载失败，已重试 ${retryConfig.maxAttempts} 次\n请检查网络连接后刷新页面`);
+            utils.appendLoader(`资源加载失败，已重试 ${retryCfg.maxAttempts} 次，请检查网络连接后刷新页面`);
         }
     });
 };
-
+/**
+ * 配置模块加载完成后的回调函数
+ * @param {*} context 
+ * @param {*} map 
+ * @param {*} depMaps 
+ */
 require.onResourceLoad = function (context, map, depMaps) {
-    console.log('onResourceLoad', map.name);
-    const loaderElement = document.querySelector('#loading-modules');
-    if (loaderElement) {
-        const li = document.createElement('li');
-        li.textContent = map.name;
-        loaderElement.appendChild(li);
-        if (Pace) {
-            Pace.restart();
-        }
-    }
-};
+    const cfg = require.s.contexts._.config;
+    cfg.progress.total++;
+    cfg.progress.updatePercent();
+    const utils = cfg.utils;
+    const moduleName = map.name;
 
+    console.log('onResourceLoad', moduleName);
+    utils.appendLoader(moduleName);
+};
 
 /**
- * 所有接口地址
+ * 页面加载完毕后执行的函数
+ * 1. 初始化页面
+ * 2. 初始化插件
  */
-apiUrls = {
-    BASE_URL: 'http://bcnytest.bcnyyun.com/dapr-service-iot-ota',
-    USER_LOGIN: function () {
-        //登入
-        return this.BASE_URL + '/user/login';
-    },
-    USER_LOGOUT: function () {
-        //登出
-        return this.BASE_URL + '/user/logout';
-    },
-    DASHBOARD_STATISTICS: function () {
-        //获取统计数据
-        return this.BASE_URL + '/dashboard/statistics';
-    },
-    DASHBOARD_LIST: function () {
-        //升级状态列表
-        return this.BASE_URL + '/dashboard/list';
-    },
-    DICT_UPGRADESTATUS: function () {
-        //升级状态列表
-        return this.BASE_URL + '/dict/upgradeStatus';
-    },
-    DICT_UPGRADEPLANSTATUS: function () {
-        //升级计划状态字典
-        return this.BASE_URL + '/dict/upgradePlanStatus';
-    }
-};
-
 require(['domReady', 'es6-promise'], function (domReady) {
     domReady(function () {
         require(['adminlte'], function () {
