@@ -150,10 +150,17 @@ require.config({
         total: 0,
         loaded: 0,
         updatePercent: function () {
-            const percent = this.loaded / this.total * 100 || 0;
-            const element = document.getElementById('loading-percent');
-            if (element) {
-                element.textContent = `${Math.min(100, percent.toFixed(0))}%`;
+            const percent = Math.min(100, (this.loaded / this.total * 100) || 0);
+            const progressBar = document.getElementById('loading-progress');
+            if (progressBar) {
+                progressBar.style.width = `${percent.toFixed(0)}%`;
+                progressBar.textContent = `${percent.toFixed(0)}%`;
+                // 添加动画效果
+                if (percent < 100) {
+                    progressBar.classList.add('progress-bar-animated');
+                } else {
+                    progressBar.classList.remove('progress-bar-animated');
+                }
             }
         }
     }
